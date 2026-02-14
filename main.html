@@ -914,6 +914,8 @@
             </div>
         </div>
     </section>
+    
+
 
     <!-- Final Section -->
     <section class="final-section">
@@ -934,6 +936,35 @@
             </div>
         </div>
     </section>
+    <audio id="scrollMusic" preload="auto">
+  <source src="images/a.mp3">
+</audio>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const music = document.getElementById("scrollMusic");
+    const targetSection = document.querySelector(".final-section");
+
+    music.volume = 1.0; // ensure not muted
+
+    let hasPlayed = false;
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !hasPlayed) {
+                console.log("Section reached, trying to play...");
+                music.play()
+                    .then(() => console.log("Playing!"))
+                    .catch(err => console.log("Blocked:", err));
+                hasPlayed = true;
+                observer.unobserve(targetSection);
+            }
+        });
+    }, { threshold: 0.5 });
+
+    observer.observe(targetSection);
+});
+</script>
 
     <script>
         // Create background particles
