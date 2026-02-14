@@ -1,251 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Message From the Upside Down</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Benguiat+Bold&family=Special+Elite&display=swap');
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Message From the Upside Down</title>
 
-        body {
-            font-family: 'Special Elite', cursive;
-            background: #000;
-            overflow: hidden;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 
-        .container {
-            text-align: center;
-            z-index: 10;
-            position: relative;
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        .flicker {
-            font-size: 4rem;
-            color: #ff0000;
-            text-shadow: 
-                0 0 10px #ff0000,
-                0 0 20px #ff0000,
-                0 0 30px #ff0000,
-                0 0 40px #ff0000,
-                0 0 70px #ff0000,
-                0 0 80px #ff0000,
-                0 0 100px #ff0000;
-            animation: flicker 3s infinite alternate, glow 2s ease-in-out infinite;
-            letter-spacing: 5px;
-            margin-bottom: 2rem;
-        }
+body {
+    font-family: 'Special Elite', cursive;
+    background: #000;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s;
+}
 
-        @keyframes flicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% {
-                opacity: 1;
-            }
-            20%, 24%, 55% {
-                opacity: 0.4;
-            }
-        }
+/* ===== Background Effects ===== */
 
-        @keyframes glow {
-            0%, 100% {
-                text-shadow: 
-                    0 0 10px #ff0000,
-                    0 0 20px #ff0000,
-                    0 0 30px #ff0000,
-                    0 0 40px #ff0000;
-            }
-            50% {
-                text-shadow: 
-                    0 0 20px #ff0000,
-                    0 0 30px #ff0000,
-                    0 0 40px #ff0000,
-                    0 0 50px #ff0000,
-                    0 0 60px #ff0000;
-            }
-        }
+.particles, .lights-wall {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: #fff;
-            margin-bottom: 3rem;
-            opacity: 0.8;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-        }
+.particle {
+    position: absolute;
+    background: rgba(255,0,0,0.3);
+    border-radius: 50%;
+    animation: float 15s infinite;
+}
 
-        .enter-button {
-            background: transparent;
-            border: 3px solid #ff0000;
-            color: #ff0000;
-            padding: 20px 50px;
-            font-size: 1.5rem;
-            font-family: 'Special Elite', cursive;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            box-shadow: 
-                0 0 10px #ff0000,
-                inset 0 0 10px rgba(255, 0, 0, 0.2);
-        }
+@keyframes float {
+    0% { transform: translateY(0); opacity:0; }
+    10% { opacity:0.5; }
+    90% { opacity:0.5; }
+    100% { transform: translateY(-100vh); opacity:0; }
+}
 
-        .enter-button:before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 0, 0, 0.3);
-            transition: left 0.5s ease;
-        }
+.light {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: #ffeb3b;
+    border-radius: 50%;
+    box-shadow: 0 0 20px #ffeb3b;
+    animation: blink 2s infinite;
+}
 
-        .enter-button:hover:before {
-            left: 100%;
-        }
+@keyframes blink {
+    0%,50%,100%{opacity:1;}
+    25%,75%{opacity:0.3;}
+}
 
-        .enter-button:hover {
-            background: #ff0000;
-            color: #000;
-            box-shadow: 
-                0 0 20px #ff0000,
-                0 0 40px #ff0000,
-                inset 0 0 20px rgba(255, 255, 255, 0.3);
-            transform: scale(1.05);
-        }
+/* ===== Main Content ===== */
 
-        .lights-wall {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+.container {
+    text-align: center;
+    z-index: 10;
+}
 
-        .light {
-            position: absolute;
-            width: 8px;
-            height: 8px;
-            background: #ffeb3b;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #ffeb3b, 0 0 40px #ffeb3b;
-            animation: blink 2s infinite;
-        }
+.flicker {
+    font-size: 4rem;
+    color: #ff0000;
+    text-shadow: 0 0 20px #ff0000;
+    animation: flicker 3s infinite alternate;
+}
 
-        @keyframes blink {
-            0%, 50%, 100% { opacity: 1; }
-            25%, 75% { opacity: 0.3; }
-        }
+@keyframes flicker {
+    0%,100%{opacity:1;}
+    50%{opacity:0.5;}
+}
 
-        .particles {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 0;
-        }
+.subtitle {
+    color:#fff;
+    margin:20px 0 40px;
+}
 
-        .particle {
-            position: absolute;
-            background: rgba(255, 0, 0, 0.3);
-            border-radius: 50%;
-            animation: float 15s infinite;
-        }
+.enter-button {
+    background: transparent;
+    border:3px solid #ff0000;
+    color:#ff0000;
+    padding:20px 50px;
+    font-size:1.3rem;
+    cursor:pointer;
+    transition:0.3s;
+}
 
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0) translateX(0);
-                opacity: 0;
-            }
-            10% {
-                opacity: 0.5;
-            }
-            90% {
-                opacity: 0.5;
-            }
-            100% {
-                transform: translateY(-100vh) translateX(50px);
-                opacity: 0;
-            }
-        }
+.enter-button:hover {
+    background:#ff0000;
+    color:#000;
+    box-shadow:0 0 20px #ff0000;
+}
 
-        @media (max-width: 768px) {
-            .flicker {
-                font-size: 2.5rem;
-            }
-            .subtitle {
-                font-size: 1rem;
-                padding: 0 20px;
-            }
-            .enter-button {
-                font-size: 1.2rem;
-                padding: 15px 35px;
-            }
-        }
-    </style>
+/* ===== Authentication Modal ===== */
+
+.auth-box {
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    background: rgba(0,0,0,0.95);
+    border:3px solid #ff0000;
+    padding:40px;
+    text-align:center;
+    display:none;
+    box-shadow:0 0 30px #ff0000;
+    z-index:100;
+}
+
+.auth-box h2 {
+    color:#ff0000;
+    margin-bottom:20px;
+}
+
+.auth-input {
+    background:black;
+    border:2px solid #ff0000;
+    color:white;
+    padding:10px;
+    width:250px;
+    font-size:1rem;
+    text-align:center;
+    margin-bottom:15px;
+}
+
+.auth-input:focus {
+    outline:none;
+    box-shadow:0 0 15px #ff0000;
+}
+
+.auth-btn {
+    background:#ff0000;
+    border:none;
+    padding:10px 30px;
+    cursor:pointer;
+    font-family:'Special Elite';
+}
+
+.auth-btn:hover {
+    box-shadow:0 0 20px #ff0000;
+}
+
+/* ===== Error ===== */
+
+.error {
+    color:#ff4444;
+    margin-top:10px;
+    display:none;
+    text-shadow:0 0 10px red;
+}
+
+/* ===== Hidden Hint ===== */
+
+.hint {
+    margin-top:10px;
+    font-size:0.9rem;
+    color:#ff0000;
+    opacity:0;
+    text-shadow:0 0 8px #ff0000;
+    transition: opacity 1s;
+}
+
+.hint.visible {
+    opacity:0.8;
+    animation: flickerHint 2s infinite alternate;
+}
+
+@keyframes flickerHint {
+    0%{opacity:0.4;}
+    100%{opacity:0.9;}
+}
+
+</style>
 </head>
+
 <body>
-    <div class="particles" id="particles"></div>
-    <div class="lights-wall" id="lights"></div>
-    
-    <div class="container">
-        <h1 class="flicker">STRANGER THINGS</h1>
-        <p class="subtitle">A Valentine's Message from Across Dimensions</p>
-        <button class="enter-button" onclick="enter()">ENTER THE UPSIDE DOWN</button>
-    </div>
 
-    <script>
-        // Create floating particles
-        const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.width = Math.random() * 5 + 2 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = Math.random() * 10 + 10 + 's';
-            particlesContainer.appendChild(particle);
+<!-- 🎵 Background Music -->
+<audio id="bgMusic" loop>
+    <source src="images/b.mp3" type="audio/mpeg">
+</audio>
+
+<div class="particles" id="particles"></div>
+<div class="lights-wall" id="lights"></div>
+
+<div class="container">
+    <h1 class="flicker">STRANGER THINGS</h1>
+    <p class="subtitle">A Valentine's Message from Across Dimensions</p>
+    <button class="enter-button" onclick="showAuth()">ENTER THE UPSIDE DOWN</button>
+</div>
+
+<!-- 🔐 Authentication Box -->
+<div class="auth-box" id="authBox">
+    <h2>ENTER THE SECRET CODE</h2>
+    <input type="password" id="password" class="auth-input" placeholder="Type the secret message">
+    <br>
+    <p class="hint" id="hintText">
+        Hint: Who are You? 💡
+    </p>
+    <br>
+
+    <button class="auth-btn" onclick="checkAuth()">UNLOCK</button>
+    <div class="error" id="errorMsg">Access Denied. Try Again.</div>
+</div>
+
+<script>
+
+/* ===== Music Autoplay Fix ===== */
+document.addEventListener("DOMContentLoaded", function(){
+    const music = document.getElementById("bgMusic");
+    music.volume = 0.7;
+
+    document.body.addEventListener("click", function(){
+        music.play();
+    }, { once:true });
+});
+
+/* ===== Background Effects ===== */
+const particles = document.getElementById('particles');
+for(let i=0;i<30;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.width=Math.random()*5+2+'px';
+    p.style.height=p.style.width;
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=Math.random()*10+10+'s';
+    particles.appendChild(p);
+}
+
+const lights=document.getElementById('lights');
+for(let i=0;i<26;i++){
+    const l=document.createElement('div');
+    l.className='light';
+    l.style.left=(i*3.7)+2+'%';
+    l.style.top='20%';
+    lights.appendChild(l);
+}
+
+/* ===== AUTH SYSTEM ===== */
+
+let attempts = 0;
+
+function showAuth(){
+    document.getElementById("authBox").style.display="block";
+}
+
+function checkAuth(){
+    const correctPassword = "mutta"; // 🔐 change here
+    const input = document.getElementById("password").value;
+    const errorMsg = document.getElementById("errorMsg");
+    const hint = document.getElementById("hintText");
+
+    if(input.toLowerCase() === correctPassword){
+
+        document.body.style.opacity="0";
+        document.getElementById("bgMusic").pause();
+
+        setTimeout(()=>{
+            window.location.href="main.html";
+        },1000);
+
+    } else {
+        attempts++;
+        errorMsg.style.display="block";
+
+        if(attempts >= 2){
+            hint.classList.add("visible");
         }
+    }
+}
 
-        // Create lights wall
-        const lightsContainer = document.getElementById('lights');
-        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        for (let i = 0; i < 26; i++) {
-            const light = document.createElement('div');
-            light.className = 'light';
-            light.style.left = (i * 3.7) + 2 + '%';
-            light.style.top = '20%';
-            light.style.animationDelay = Math.random() * 2 + 's';
-            lightsContainer.appendChild(light);
-        }
+/* Enter key support */
+document.getElementById("password").addEventListener("keypress", function(e){
+    if(e.key === "Enter"){
+        checkAuth();
+    }
+});
 
-        function enter() {
-            document.body.style.transition = 'opacity 1s';
-            document.body.style.opacity = '0';
-            setTimeout(() => {
-                window.location.href = 'main.html';
-            }, 1000);
-        }
-
-        // Add keyboard enter support
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                enter();
-            }
-        });
-    </script>
+</script>
 </body>
 </html>
